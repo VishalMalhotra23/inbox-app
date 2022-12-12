@@ -18,6 +18,7 @@ public class HomeController {
     public String home(Model model, @AuthenticationPrincipal OidcUser principal) {
         if (principal != null) {
             model.addAttribute("profile", principal.getClaims());
+            System.out.println(principal);
         }
         return "index";
     }

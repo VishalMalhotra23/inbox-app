@@ -17,8 +17,6 @@ public class SecurityConfig {
     @Autowired
     private CustomOidcUserService customOidcUserService;
 
-
-
     public SecurityConfig(LogoutHandler logoutHandler) {
         this.logoutHandler = logoutHandler;
     }
@@ -26,7 +24,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf().ignoringAntMatchers("/login", "/logout").csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .oauth2Login()
                 .userInfoEndpoint().oidcUserService(customOidcUserService).and()
                 .defaultSuccessUrl("/",true)
