@@ -35,7 +35,7 @@ public class CustomOidcUserService extends OidcUserService {
         System.out.println(googleUserInfo.getId());
 
         User userToSave = User.builder()
-                .sub(googleUserInfo.getId())
+                .userId(googleUserInfo.getId())
                 .name(googleUserInfo.getName())
                 .email(googleUserInfo.getEmail()).build();
 
