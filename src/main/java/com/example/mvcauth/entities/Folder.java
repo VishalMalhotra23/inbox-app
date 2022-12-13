@@ -33,4 +33,9 @@ public class Folder {
     @Transient
     private int unreadCount;
 
+    public Folder(String id, String label, String color) {
+        this.id = id;
+        this.label = label;
+        this.color = color;
+    }
 }
