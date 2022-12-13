@@ -5,8 +5,10 @@ import com.example.mvcauth.entities.Folder;
 import com.example.mvcauth.repository.FolderRepository;
 import com.example.mvcauth.service.EmailService;
 import com.example.mvcauth.service.FoldersService;
+import org.ietf.jgss.Oid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,12 +41,14 @@ public class ComposePageController {
 
     @GetMapping(value = "/compose")
     public String getComposePage(@RequestParam(required = false) String to, @RequestParam(required = false) String replayToEmailId,
-                                 @AuthenticationPrincipal OAuth2User principal,
+                                 @AuthenticationPrincipal OidcUser principal,
                                  Model model) {
 
-        if (principal != null && principal.getAttribute("login") != null) {
+        if (principal != null ) {
 
-            String loginId = principal.getAttribute("login");
+            String loginId = principal.getEmail();
+            model.addAttribute("profile", principal.getClaims());
+
             List<Folder> folders = folderRepository.findAllById(loginId);
             List<Folder> initFolders = foldersService.init(loginId);
             // initFolders.stream().forEach(folderRepository::save);
@@ -64,16 +68,16 @@ public class ComposePageController {
     }
 
     @PostMapping(value = "/sendEmail")
-    public ModelAndView sendEmail(@RequestBody MultiValueMap<String, String> formData, @AuthenticationPrincipal OAuth2User principal) {
+    public ModelAndView sendEmail(@RequestBody MultiValueMap<String, String> formData, @AuthenticationPrincipal OidcUser principal) {
 
-        if (principal == null || principal.getAttribute("login") == null) {
+        if (principal == null) {
             return null;
         }
 
         String toUserIds = formData.getFirst("toUserIds");
         String subject = formData.getFirst("subject");
         String body = formData.getFirst("body");
-        String from = principal.getAttribute("login");
+        String from = principal.getEmail();
 
         emailService.sendEmail(from, toUserIds, subject, body);
 

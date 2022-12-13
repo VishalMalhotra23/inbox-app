@@ -54,7 +54,7 @@ public class EmailPageController {
 
         if (principal != null ) {
 
-            String loginId = principal.getSubject().split("\\|")[1];
+            String loginId = principal.getEmail();
             model.addAttribute("profile", principal.getClaims());
 
             List<Folder> folders = folderRepository.findAllById(loginId);
@@ -78,7 +78,7 @@ public class EmailPageController {
                     model.addAttribute("email", optionalEmail.get());
                     model.addAttribute("toIds", toIds);
                     EmailsListPrimaryKey key = new EmailsListPrimaryKey();
-                    key.setUserId(loginId);
+                    key.setUserEmail(loginId);
                     key.setLabel(folder);
                     key.setTimeId(email.getId());
 

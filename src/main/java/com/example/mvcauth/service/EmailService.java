@@ -66,7 +66,7 @@ public class EmailService {
 
         EmailsListPrimaryKey key = new EmailsListPrimaryKey();
         key.setLabel(folderName);
-        key.setUserId(forUser);
+        key.setUserEmail(forUser);
         key.setTimeId(timeUuid);
         EmailsList emailsListEntry = new EmailsList();
         emailsListEntry.setId(key);

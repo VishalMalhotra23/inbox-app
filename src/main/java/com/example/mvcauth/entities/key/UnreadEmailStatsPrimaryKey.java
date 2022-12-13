@@ -15,8 +15,8 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 @Builder
 public class UnreadEmailStatsPrimaryKey {
 
-    @PrimaryKeyColumn(name = "user_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
-    private String userId;
+    @PrimaryKeyColumn(name = "user_email", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
+    private String userEmail;
 
     @PrimaryKeyColumn(name = "label", ordinal = 1, type = PrimaryKeyType.PARTITIONED)
     private String label;

@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface EmailsListRepository extends CassandraRepository<EmailsList, EmailsListPrimaryKey>  {
-    List<EmailsList> findAllById_UserIdAndId_Label(String userId, String label);
+    List<EmailsList> findAllById_UserEmailAndId_Label(String userId, String label);
 }
