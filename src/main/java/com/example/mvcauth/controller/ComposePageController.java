@@ -102,7 +102,7 @@ public class ComposePageController {
     }
 
     public static String getReplyBody(Email email) {
-        return "\n\n ------------------------------- \n\n " +
+        return "\n\n\n------------------------------- \n" +
                 "From: " + email.getFrom() + "\n" +
                 "To: " + email.getTo() + "\n\n" +
                 email.getBody();
