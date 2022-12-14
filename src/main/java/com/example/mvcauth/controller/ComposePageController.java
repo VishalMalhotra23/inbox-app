@@ -1,15 +1,15 @@
 package com.example.mvcauth.controller;
 
 
+import com.example.mvcauth.entities.Email;
 import com.example.mvcauth.entities.Folder;
+import com.example.mvcauth.repository.EmailRepository;
 import com.example.mvcauth.repository.FolderRepository;
 import com.example.mvcauth.service.EmailService;
 import com.example.mvcauth.service.FoldersService;
-import org.ietf.jgss.Oid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 public class ComposePageController {
@@ -28,6 +30,9 @@ public class ComposePageController {
     private final FolderRepository folderRepository;
     private final EmailService emailService;
     private final FoldersService foldersService;
+
+    @Autowired
+    private EmailRepository emailRepository;
 
     @Autowired
     public ComposePageController(FolderRepository folderRepository,
@@ -40,11 +45,13 @@ public class ComposePageController {
 
 
     @GetMapping(value = "/compose")
-    public String getComposePage(@RequestParam(required = false) String to, @RequestParam(required = false) String replayToEmailId,
+    public String getComposePage(@RequestParam(required = false) String to,
+                                 @RequestParam(required = false) String replayToEmailId,
+                                 @RequestParam(value = "id", required = false) UUID emailId,
                                  @AuthenticationPrincipal OidcUser principal,
                                  Model model) {
 
-        if (principal != null ) {
+        if (principal != null) {
 
             String loginId = principal.getEmail();
             model.addAttribute("profile", principal.getClaims());
@@ -60,6 +67,16 @@ public class ComposePageController {
 
             Map<String, Integer> folderToUnreadCounts = foldersService.getUnreadCountsMap(loginId);
             model.addAttribute("folderToUnreadCounts", folderToUnreadCounts);
+
+            if(emailId != null) {
+                Optional<Email> opEmail = emailRepository.findById(emailId);
+                if (opEmail.isPresent()) {
+                    Email email = opEmail.get();
+                    model.addAttribute("subject", "Re: " + email.getSubject());
+                    model.addAttribute("body", ComposePageController.getReplyBody(email));
+                }
+
+            }
 
             return "compose-page";
         }
@@ -82,6 +99,13 @@ public class ComposePageController {
         emailService.sendEmail(from, toUserIds, subject, body);
 
         return new ModelAndView("redirect:/");
+    }
+
+    public static String getReplyBody(Email email) {
+        return "\n\n ------------------------------- \n\n " +
+                "From: " + email.getFrom() + "\n" +
+                "To: " + email.getTo() + "\n\n" +
+                email.getBody();
     }
 
 }

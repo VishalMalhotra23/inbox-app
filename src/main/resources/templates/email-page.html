@@ -87,25 +87,28 @@
                 <dt class="form-label">Body</dt>
                 <dd th:text="${email.body}"></dd>
               </div>
-              <!-- <div class="dropdown">
+
+               <div class="dropdown">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                   Move to folder
                 </a>
-              
+
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                   <li th:each="folder : ${defaultFolders}"><a class="dropdown-item" th:text="${folder.label}" href="#">Action</a></li>
                   <li th:each="folder : ${userFolders}"><a class="dropdown-item" th:text="${folder.label}" href="#">Action</a></li>
                 </ul>
-              </div> -->
+              </div>
 
               
-              <a th:href="@{'/compose?to=' + ${email.from}}" type="button" class="btn btn-primary">Reply</a>
-              <a th:href="@{'/compose?to=' + ${email.from} + ',' + ${toIds}}" type="button" class="btn btn-primary">Reply All</a>
-                <!-- <form style="display:inline-block;"><select id="moveToFolder" name="moveToFolder" class="form-select" aria-label="Move to folder">
+              <a th:href="@{'/compose?to=' + ${email.from} + '&id=' + ${email.id} }" type="button" class="btn btn-primary">Reply</a>
+              <a th:href="@{'/compose?to=' + ${email.from} + ', ' + ${toIds} + '&id=' + ${email.id} }" type="button" class="btn btn-primary">Reply All</a>
+
+            <!-- <form style="display:inline-block;"><select id="moveToFolder" name="moveToFolder" class="form-select" aria-label="Move to folder">
                   <option th:each="folder : ${defaultFolders}" th:text="${folder.label}">Status</option>
                 </select>
                 <button href="/" class="btn btn-secondary" type="button">Move</button>
               </form> -->
+
               <a href="/" class="btn btn-secondary" type="button">Cancel</a>
             </dl>
         </div>
