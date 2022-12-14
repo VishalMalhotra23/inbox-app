@@ -47,6 +47,11 @@
       footer {
         grid-area: footer;
       }
+
+      .body-text {
+        white-space: pre-wrap;
+      }
+
     </style>
   </head>
   <body>
@@ -85,7 +90,7 @@
               </div>
               <div class="mb-3">
                 <dt class="form-label">Body</dt>
-                <dd th:text="${email.body}"></dd>
+                <dd class="body-text" th:text="${email.body}"></dd>
               </div>
 
                <div class="dropdown">
