@@ -6,46 +6,7 @@
           content="width=device-width, initial-scale=1, IE=edge"/>
     <title>Inbox</title>
     <div th:replace="fragments/bootstrap :: bootstrap"></div>
-
-    <style>
-    .mainbox {
-      display: grid;
-
-      grid-template-areas:
-        "header header header"
-        "nav content content"
-        "footer footer footer";
-
-      grid-template-columns: 300px 1fr;
-      grid-template-rows: auto 1fr auto;
-      grid-gap: 10px;
-
-      height: 100vh;
-    }
-
-    header {
-      grid-area: header;
-    }
-
-    nav {
-      grid-area: nav;
-      margin-left: 0.5rem;
-    }
-
-    main {
-      grid-area: content;
-    }
-
-    footer {
-      grid-area: footer;
-    }
-
-    .body-text {
-        white-space: pre-wrap;
-    }
-
-    </style>
-
+    <div th:replace="fragments/style-css :: style-tag"></div>
 </head>
 
 <body>
@@ -55,7 +16,7 @@
 <div class="container mainbox">
 
     <div class="mt-3">
-        <div th:replace="fragments/frags :: welcome"></div>
+        <div th:replace="fragments/welcome :: welcome"></div>
     </div>
 
     <nav>
@@ -63,10 +24,10 @@
             <a href="/compose" class="btn btn-primary">Compose message</a>
         </div>
         <div
-                th:insert="components/folder-list :: folder-list (panelName = 'Folders', folders = ${defaultFolders}, folderToUnreadCounts = ${folderToUnreadCounts})"
+                th:insert="fragments/folder-list :: folder-list (panelName = 'Folders', folders = ${defaultFolders}, folderToUnreadCounts = ${folderToUnreadCounts})"
         ></div>
         <div
-                th:insert="components/folder-list :: folder-list (panelName = 'My folders', folders = ${userFolders}, folderToUnreadCounts = ${folderToUnreadCounts})"
+                th:insert="fragments/folder-list :: folder-list (panelName = 'My folders', folders = ${userFolders}, folderToUnreadCounts = ${folderToUnreadCounts})"
         ></div>
     </nav>
 
@@ -103,18 +64,10 @@
                         </li>
                     </ul>
 
-
-
                 <a th:href="@{'/compose?to=' + ${email.from} + '&id=' + ${email.id} }" type="button"
                    class="btn btn-primary">Reply</a>
                 <a th:href="@{'/compose?to=' + ${email.from} + ', ' + ${toIds} + '&id=' + ${email.id} }" type="button"
                    class="btn btn-primary">Reply All</a>
-
-                <!-- <form style="display:inline-block;"><select id="moveToFolder" name="moveToFolder" class="form-select" aria-label="Move to folder">
-                      <option th:each="folder : ${defaultFolders}" th:text="${folder.label}">Status</option>
-                    </select>
-                    <button href="/" class="btn btn-secondary" type="button">Move</button>
-                  </form> -->
 
                 <a href="/" class="btn btn-danger" type="button">Cancel</a>
             </dl>
