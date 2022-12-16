@@ -20,8 +20,11 @@
         </div>
 
         <nav>
-            <div class="card mb-2">
+            <div class="card mb-1">
                 <a href="/compose" class="btn btn-primary">Compose message</a>
+            </div>
+            <div class="card mb-2">
+                <a href="/" class="btn btn-success">Refresh MailBox</a>
             </div>
             <div
                     th:insert="fragments/folder-list :: folder-list (panelName = 'Folders', folders = ${defaultFolders}, folderToUnreadCounts = ${folderToUnreadCounts})">
