@@ -78,5 +78,19 @@ public class EmailPageController {
         return new ModelAndView("redirect:/");
     }
 
+    @GetMapping(value = "/delete")
+    public ModelAndView deleteMessageController(
+            @AuthenticationPrincipal OidcUser principal,
+            @RequestParam(value = "emailId", required = false) String emailId,
+            @RequestParam(value = "from", required = false) String fromEmail,
+            @RequestParam(value = "fc", required = false) String currentFolder) {
+
+        if (principal != null) {
+            emailService.deleteMessage(UUID.fromString(emailId), fromEmail, currentFolder);
+        }
+
+        return new ModelAndView("redirect:/");
+    }
+
 }
 

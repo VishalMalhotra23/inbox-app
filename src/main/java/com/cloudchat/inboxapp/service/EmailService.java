@@ -119,4 +119,13 @@ public class EmailService {
         emailsListRepository.deleteById(key);
 
     }
+
+    public void deleteMessage(UUID timeID, String fromEmail, String currentFolder) {
+        EmailsListPrimaryKey key = EmailsListPrimaryKey.builder()
+                .userEmail(fromEmail).label(currentFolder)
+                .timeId(timeID)
+                .build();
+        emailsListRepository.deleteById(key);
+        emailRepository.deleteById(timeID);
+    }
 }

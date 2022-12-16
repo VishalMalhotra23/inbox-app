@@ -70,7 +70,8 @@
                 <a th:href="@{'/compose?to=' + ${email.from} + ', ' + ${toIds} + '&id=' + ${email.id} }" type="button"
                    class="btn btn-primary">Reply All</a>
 
-                <a href="/" class="btn btn-danger" type="button">Cancel</a>
+                <a href="/" class="btn btn-outline-danger" type="button">Cancel</a>
+                <a th:href="@{ '/delete?emailId=' + ${email.id} + '&from=' + ${profile.get('email')} + '&fc=' + ${current} }" class="btn btn-danger" type="button">Delete</a>
             </dl>
         </div>
     </main>
