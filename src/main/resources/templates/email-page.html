@@ -60,7 +60,8 @@
 
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <li th:each="folder : ${defaultFolders}">
-                            <a class="dropdown-item" th:text="${folder.label}" href="#">Action</a>
+                            <a class="dropdown-item" type="button" th:text="${folder.label}"
+                               th:href="@{ '/moveTo?to=' + ${folder.label} + '&emailId=' + ${email.id} + '&from=' + ${profile.get('email')} + '&fc=' + ${current} }">Action</a>
                         </li>
                     </ul>
 

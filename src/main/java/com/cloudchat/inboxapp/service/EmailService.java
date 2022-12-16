@@ -99,4 +99,24 @@ public class EmailService {
         emailListItem.setRead(true);
         emailsListRepository.save(emailListItem);
     }
+
+    public void moveToFolder(String toFolder, UUID emailId, String fromEmail, String currentFolder) {
+        EmailsListPrimaryKey key = EmailsListPrimaryKey.builder()
+                .userEmail(fromEmail).label(currentFolder)
+                .timeId(emailId)
+                .build();
+        EmailsListPrimaryKey key2 = EmailsListPrimaryKey.builder()
+                .userEmail(fromEmail).label(currentFolder)
+                .timeId(emailId)
+                .build();
+
+        Optional<EmailsList> optionalEmailListItem = emailsListRepository.findById(key);
+        if (optionalEmailListItem.isEmpty()) throw new IllegalArgumentException();
+        EmailsList emailListItem = optionalEmailListItem.get();
+        key2.setLabel(toFolder);
+        emailListItem.setId(key2);
+        emailsListRepository.save(emailListItem);
+        emailsListRepository.deleteById(key);
+
+    }
 }
