@@ -1,6 +1,7 @@
 package com.cloudchat.inboxapp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -19,6 +20,9 @@ import java.io.IOException;
  */
 @Controller
 public class LogoutHandler extends SecurityContextLogoutHandler {
+
+    @Value("${custom.config.logout-url}")
+    private String my_logout_url;
 
     private final ClientRegistrationRepository clientRegistrationRepository;
 
@@ -52,7 +56,7 @@ public class LogoutHandler extends SecurityContextLogoutHandler {
         // URL will look like https://YOUR-DOMAIN/v2/logout?clientId=YOUR-CLIENT-ID&returnTo=http://localhost:3000
         String issuer = (String) getClientRegistration().getProviderDetails().getConfigurationMetadata().get("issuer");
         String clientId = getClientRegistration().getClientId();
-        String returnTo = ServletUriComponentsBuilder.fromCurrentContextPath().build().toString();
+        String returnTo = my_logout_url;
 
         String logoutUrl = UriComponentsBuilder
                 .fromHttpUrl(issuer + "v2/logout?client_id={clientId}&returnTo={returnTo}")
