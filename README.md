@@ -9,6 +9,10 @@
 - Paste the following content
 
 ```yml
+custom:
+  config:
+    logout-url: http://localhost:8080
+
 spring:
 
   application:
@@ -77,7 +81,7 @@ CREATE KEYSPACE main WITH REPLICATION
 
 ## To Deploy Application on cloud
 
-- Create 4 Virtual Machine on GCP
+- Create 4 Virtual Machine on GCP : [here](./gcp.md)
 
 ### Cassandra Node Setup
 
@@ -129,6 +133,51 @@ CREATE KEYSPACE main WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', '
 
 ### Spring Boot setup
 
+- touch `src/main/resources/application.yml`
+
+```bash
+custom:
+  config:
+    logout-url: https://chat.udayyadav.one/
+
+spring:
+
+  application:
+    name: cloud-inbox-app
+
+  data:
+    cassandra:
+      connection:
+        connect-timeout: 10s
+        init-query-timeout: 10s
+      contact-points: localhost
+      keyspace-name: main
+      local-datacenter: datacenter1
+      password: cassandra
+      request:
+        timeout: 10s
+      schema-action: RECREATE
+      #schema-action: CREATE_IF_NOT_EXISTS
+      username: cassandra
+
+  security:
+    oauth2:
+      client:
+        registration:
+          auth0:
+            redirectUri: http://[domain]/login/oauth2/code/auth0
+            client-id: [client-id]
+            client-secret: [client-secret]
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          auth0:
+            issuer-uri: https://yadav117uday.eu.auth0.com/
+
+```
+
 ```bash
 git clone https://github.com/dev117uday/inbox-app.git && cd inbox
 
@@ -160,3 +209,42 @@ http {
 
 events { }
 ```
+
+- restart nginx : `sudo systemctl restart nginx`
+
+## Nginx conf for Load balancer
+
+sudo apt-get install nginx snapd -y
+sudo snap install core; sudo snap refresh core
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx
+
+```conf
+http {
+    upstream backend {
+        ip_hash;
+        server node1 max_fails=1 fail_timeout=5s;
+        server node2 max_fails=1 fail_timeout=5s;
+        server node3 max_fails=1 fail_timeout=5s;
+}    
+    server {
+        listen 443 ssl;
+        ssl_certificate /etc/letsencrypt/live/chat.udayyadav.one/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/chat.udayyadav.one/privkey.pem;
+        ssl_protocols TLSv1.3;
+        location / {
+            proxy_pass http://backend;         
+        }
+    }
+}
+events { }
+```
+
+- restart nginx : `sudo systemctl restart nginx`
+
+- **Register application on [auth](https://auth0.com/)**
+
+- Allowed callback URL ( on auth0 site ) : `http://[domain]/login/oauth2/code/auth0`
+- Allowed Logout URL ( on auth0 site  ) : `http://[domain]/`
+- Run maven install to complete setup
