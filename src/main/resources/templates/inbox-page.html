@@ -1,52 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+<head>
+    <meta charset="utf-8" http-equiv="X-UA-Compatible" name="viewport"
+          content="width=device-width, initial-scale=1, IE=edge"/>
     <title>Inbox</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-      crossorigin="anonymous"
-    ></script>
-    <style>
-      .bold {
-        font-weight: 800;
-      }
-      .container {
-        display: grid;
+    <div th:replace="fragments/bootstrap :: bootstrap"></div>
+    <div th:replace="fragments/style-css :: style-tag"></div>
+</head>
 
-        grid-template-areas:
-          "header header header"
-          "nav content content"
-          "footer footer footer";
+<body>
 
-        grid-template-columns: 300px 1fr;
-        grid-template-rows: auto 1fr auto;
-        grid-gap: 10px;
+<div th:replace="fragments/navbar :: navbar"></div>
 
-        height: 100vh;
-      }
-      header {
-        grid-area: header;
-      }
-
-      nav {
-        grid-area: nav;
-        margin-left: 0.5rem;
-      }
-
-      main {
-        grid-area: content;
-      }
-
+<<<<<<< HEAD
       footer {
         grid-area: footer;
       }
@@ -57,39 +24,52 @@
       <header>
         <h1>Welcome, User</h1>
       </header>
+=======
+    <div class="container mainbox">
+>>>>>>> da52375f359d4a325d4f5861b52b5304ad2b2847
 
-      <nav>
-        <div class="card">
-          <a href="/compose" class="btn btn-primary">Compose message</a>
+        <div class="mt-3">
+            <div th:replace="fragments/welcome :: welcome"></div>
         </div>
-        <div
-            th:insert="components/folder-list :: folder-list (panelName = 'Folders', folders = ${defaultFolders}, folderToUnreadCounts = ${folderToUnreadCounts})"
-          ></div>
-          <div
-            th:insert="components/folder-list :: folder-list (panelName = 'My folders', folders = ${userFolders}, folderToUnreadCounts = ${folderToUnreadCounts})"
-          ></div>
-      </nav>
-      
-      <main>
-        <div class="card">
-            <div class="card-header">Inbox</div>
-            <div class="card-body">
-        <div class="list-group">
-            <a th:href="@{'/email/' + ${email.id.timeId}} + '?folder=' + ${currentFolder}" +   href="#" class="list-group-item list-group-item-action" th:classappend="${email.isRead} ? regular : bold" aria-current="true" th:each="email : ${folderEmails}">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1" th:classappend="${email.isRead} ? regular : bold" th:text="${email.subject}">Subject</h5>
-                <small th:text="${email.agoTimeString}">3 days ago</small>
-              </div>
-              <p class="mb-1"><span>From: </span><span th:text="${email.from}">Sender</span></p>
-            </a>
-          </div>
-          </div>
-          </div>
-      </main>
 
-      <footer>
-        <!-- Footer content -->
-      </footer>
+        <nav>
+            <div class="card mb-1">
+                <a href="/compose" class="btn btn-primary">Compose message</a>
+            </div>
+            <div class="card mb-2">
+                <a href="/" class="btn btn-success">Refresh MailBox</a>
+            </div>
+            <div
+                    th:insert="fragments/folder-list :: folder-list (panelName = 'Folders', folders = ${defaultFolders}, folderToUnreadCounts = ${folderToUnreadCounts})">
+            </div>
+            <div
+                    th:insert="fragments/folder-list :: folder-list (panelName = 'My folders', folders = ${userFolders}, folderToUnreadCounts = ${folderToUnreadCounts})">
+            </div>
+        </nav>
+
+        <main>
+            <div class="card">
+                <div class="card-header">Inbox</div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a th:href="@{'/email/' + ${email.id.timeId}} + '?folder=' + ${currentFolder}" + href="#"
+                           class="list-group-item list-group-item-action" th:classappend="${email.isRead} ? regular : bold"
+                           aria-current="true" th:each="email : ${folderEmails}">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1" th:classappend="${email.isRead} ? regular : bold" th:text="${email.subject}">
+                                    Subject
+                                </h5>
+                                <small th:text="${email.agoTimeString}">Some time ago</small>
+                            </div>
+                            <p class="mb-1">
+                                <span>From: </span><span th:text="${email.from}">Sender</span>
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
-  </body>
+
+</body>
 </html>

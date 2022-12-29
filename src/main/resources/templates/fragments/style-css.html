@@ -1,0 +1,50 @@
+<div xmlns:th="http://www.thymeleaf.org">
+
+    <div th:fragment="style-tag">
+
+        <style>
+    .bold {
+        font-weight: 800;
+      }
+
+    .mainbox {
+      display: grid;
+
+      grid-template-areas:
+        "header header header"
+        "nav content content"
+        "footer footer footer";
+
+      grid-template-columns: 300px 1fr;
+      grid-template-rows: auto 1fr auto;
+      grid-gap: 10px;
+
+      height: 100vh;
+    }
+
+    header {
+      grid-area: header;
+    }
+
+    nav {
+      grid-area: nav;
+      margin-left: 0.5rem;
+    }
+
+    main {
+      grid-area: content;
+    }
+
+    footer {
+      grid-area: footer;
+    }
+
+    .body-text {
+        white-space: pre-wrap;
+    }
+
+        </style>
+
+    </div>
+
+</div>
