@@ -5,7 +5,7 @@
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <div class="navbar-brand">Cloud Native</div>
+                <div class="navbar-brand">CNMS</div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li class="mt-2 me-2 ms-2 mb-2">
-                                    <img th:src="${profile.get('picture')}" />
+                                    <img th:src="${profile.get('picture')}" referrerpolicy="no-referrer" />
                                 </li>
 
                                 <li>Name :
@@ -38,11 +38,11 @@
                     </ul>
 
                     <div class="d-flex">
-                        <div sec:authorize="!isAuthenticated()">
-                            <a th:href="@{/oauth2/authorization/auth0}">
-                                <button class="btn btn-success">Login</button>
-                            </a>
-                        </div>
+<!--                        <div sec:authorize="!isAuthenticated()">-->
+<!--                            <a th:href="@{/oauth2/authorization/auth0}">-->
+<!--                                <button class="btn btn-success">Login</button>-->
+<!--                            </a>-->
+<!--                        </div>-->
                         <div sec:authorize="isAuthenticated()">
                             <a th:href="@{/logout}">
                                 <button class="btn btn-outline-danger">Logout</button>

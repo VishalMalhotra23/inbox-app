@@ -1,157 +1,168 @@
 <!-- src/main/resources/templates/index.html -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
-<<<<<<< HEAD
     <title>Test</title>
     <div th:replace="fragments/bootstrap :: bootstrap"></div>
-
     <style>
-      .banner{
-        padding:0 0 9rem 0;
-        background-color: #f7fbff;
-        display:flex;
-           align-items: center;
-            justify-content: space-between;
-            }
-        .leftsection{
-            display:flex;
-            flex-direction:column;
-            width:55%;
-            margin:2rem 0rem 2rem 2rem;
+      .banner {
+          padding: 0 0 9rem 0;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+      }
 
+      .left-section {
+          display: flex;
+          flex-direction: column;
+          width: 55%;
+          margin: 2rem 0rem 2rem 2rem;
+      }
+
+      .banner-text {
+          margin: 3rem 2rem 3rem 2rem;
+
+          font-size: 2.8rem;
+          color: #212529;
+          font-weight: bold;
+          letter-spacing: normal;
+          font-family: 'Inter', sans-serif;
+          font-weight: 600;
+      }
+
+      .banner-inner-text {
+          margin-left: 2rem;
+          margin-right: 2rem;
+          font-size: 22px;
+          color: #6c757d;
+          letter-spacing: normal;
+          font-family: 'Inter', sans-serif;
+      }
+
+      .mail-image {
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          width: 30%;
+      }
+
+      .right-section {
+          display: flex;
+          width: 45%;
+      }
+
+      .banner-logo {
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          width: 80%;
+      }
+
+      .dark-container {
+          padding: 3rem;
+          margin: 0;
+
+          background-color: #212529;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+      }
+
+      .left-container {
+          display: flex;
+          flex-direction: column;
+          width: 45%;
+          margin: 1rem;
+      }
+
+      .heading-text {
+          margin: 1rem;
+
+          font-size: 3rem;
+          color: #fff;
+
+          letter-spacing: normal;
+          font-family: 'Inter', sans-serif;
+          font-weight: 700;
+      }
+
+      .container-list {
+          list-style: none;
+          font-size: 18px;
+          color: #fff;
+      }
+
+      .container-list-image {
+          width: 3%;
+          display: inline-block;
+          margin: 10px;
+      }
+
+      .right-container {
+          display: flex;
+          width: 55%
+      }
+
+      .feature-section {
+          padding: 3rem;
+      }
+
+      .feature-heading {
+          margin: 2rem;
+          padding: 0 4rem;
+          font-size: 3.2rem;
+          color: #212529;
+          letter-spacing: normal;
+          font-family: 'Inter', sans-serif;
+          font-weight: 700;
+      }
+
+      .card-row {
+          padding: 0rem 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+      }
+
+      .card {
+          padding: 1.5rem;
+          margin: 1rem;
+          width: 45%;
+          background-color: #6f4da2;
+          border-radius: 1rem;
+          height: 10rem;
+      }
+
+      .card-2 {
+          padding: 1rem;
+          margin: 1rem;
+          width: 45%;
+          background-color: #198754;
+          border-radius: 1rem;
+          height: 7rem;
+      }
+
+      .card-heading {
+          font-size: 2.6rem;
+          color: #fff;
+          letter-spacing: normal;
+          font-family: 'Inter', sans-serif;
+          font-weight: 700;
+
+      }
+
+      .card-content {
+          font-size: 1.3rem;
+          color: #fff;
+          letter-spacing: normal;
+          font-family: 'Inter', sans-serif;
+      }
+
+    a:link {
+            text-decoration: underline;
         }
-      .bannertext{
-        margin:3rem 2rem 3rem 2rem;
-
-        font-size:2.8rem;
-                color: #212529;
-            font-weight: bold;
-            letter-spacing:normal;
-             font-family: 'Inter', sans-serif;
-                 font-weight: 600;
-       }
-
-       .bannerinnertext{
-        margin-left:2rem;
-        margin-right:2rem;
-        font-size: 22px;
-                    color: #6c757d;
-
-            letter-spacing:normal;
-             font-family: 'Inter', sans-serif;
-
-       }
-       .mailimage{
-
-             display: block;
-             margin-left: auto;
-             margin-right: auto;
-             width: 30%;
-       }
-      .rightsection{
-            display:flex;
-            width:45%;
-      }
-      .bannerlogo{
-        display:block;
-        margin-left:auto;
-        margin-right:auto;
-        width:80%;
-      }
-
-      .darkcontainer{
-        padding:3rem;
-        margin:0;
-
-        background-color:  #212529;
-        display:flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .leftcontainer{
-        display:flex;
-        flex-direction:column;
-        width:45%;
-        margin:1rem;
-
-      }
-      .headingtext{
-       margin:1rem;
-
-        font-size:3rem;
-                color: #fff;
-
-            letter-spacing:normal;
-             font-family: 'Inter', sans-serif;
-                 font-weight: 700;
-      }
-       .containerlist{
-           list-style: none;
-           font-size: 18px;
-           color: #fff;
-
-       }
-       .conatinerlistimage{
-        width:3%;
-         display: inline-block;
-  margin:  10px;
-       }
-      .rightcontainer{
-        display:flex;
-        width:55%
-      }
-
-      .featuresection{
-
-        padding:3rem;
-
-        background-color:  #f7fbff;;
-
-      }
-      .fetureheading{
-        margin:2rem;
-        padding: 0 4rem;
-        font-size:3.2rem;
-        color: #212529;
-        letter-spacing:normal;
-        font-family: 'Inter', sans-serif;
-        font-weight: 700;
-      }
-      .cardrow{
-        padding: 0rem 4rem;
-        display:flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap:wrap;
-      }
-      .card{
-        padding:3rem;
-        margin:2rem;
-        width:45%;
-        background-color: #6f4da2;
-        border-radius: 1rem;
-        height:20rem;
-      }
-      .cardheaading{
-        font-size:2.6rem;
-        color: #fff;
-        letter-spacing:normal;
-        font-family: 'Inter', sans-serif;
-        font-weight: 700;
-
-      }
-      .cardcontent{
-       font-size:1.3rem;
-        color: #fff;
-        letter-spacing:normal;
-        font-family: 'Inter', sans-serif;
-        
-      }
-
-
-
 
     </style>
 </head>
@@ -159,79 +170,80 @@
 <body>
 
 
-    <div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="fragments/navbar :: navbar"></div>
 
-
-
-
-    <div class="banner">
-        <div class="leftsection">
-            <div class="bannertext">Welcome to a BETTER internet where privacy and freedom come first.Connect Organise and Get things done. </div>
-            <div  class="bannerinnertext">If you know Bootstrap, you know Bootstrap Email. Ever wish you could just write HTML emails with Bootstrap and have it actually work? Well now you can. Inspired by syntax you know and love you can write simpler code and compile it so it works in every email client.</div>
-        </div>
-        <div class="rightsection">
-            <img class="bannerlogo" th:src="@{/images/bannerlogo.png}" alt="mail">
-        </div>
+<div class="banner">
+    <div class="left-section">
+        <div class="banner-text">Welcome to<br>Cloud Native Messaging System</div>
+        <div class="banner-inner-text">Re-designed using Cloud First Technologies</div>
     </div>
-
-    <div class="darkcontainer">
-        <div class="leftcontainer">
-            <div class="headingtext">Supported Email Clients</div>
-            <ul class="containerlists">
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" />Apple Mail macOS</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" /> Apple Mail iOS</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" /> Outlook 2000 - 2003 (IE Render)</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" /> Outlook 2007 - 2013 (MS Word Render)</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" /> Outlook 2016</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" />Outlook.com (the new Hotmail)</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" />Windows 10 Mail</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" />Yahoo!</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" />AOL Mail</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" />Android Mail</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" />Gmail</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" />Gmail App</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" />Inbox by Gmail</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" />Modern Email Clients</li>
-                <li class="containerlist"><img class="conatinerlistimage" th:src="@{/images/checkbox.png}" />Any many more...</li>
-            </ul>
-        </div>
-        <div class="rightcontainer">
-            <img class="bannerlogo" th:src="@{/images/bannerlogo.png}" alt="mail">
-        </div>
+    <div class="right-section">
+        <img class="banner-logo" th:src="@{/images/banner-logo.png}" alt="mail">
     </div>
+</div>
 
-    <div class="featuresection">
-        <div class="fetureheading">Features</div>
+<div class="dark-container">
+    <div class="left-container">
+        <div class="heading-text">Highlight Features</div>
+        <ul class="container-lists">
+            <li class="container-list"><img class="container-list-image" th:src="@{/images/checkbox.png}"/>Direct and
+                Group Messages
+            </li>
+            <li class="container-list"><img class="container-list-image" th:src="@{/images/checkbox.png}"/>Long threads
+                of continuous conversation
+            </li>
+            <li class="container-list"><img class="container-list-image" th:src="@{/images/checkbox.png}"/>Easy Sign Up
+                and Login
+            </li>
+            <li class="container-list"><img class="container-list-image" th:src="@{/images/checkbox.png}"/>Fast and
+                Responsive System
+            </li>
 
-        <div class="cardrow">
-            <div class="card">
-                <p class="cardheaading">All Clients</p>
-                <p class="cardcontent">Different email clients implement HTML differently from one another. Bootstrap Email takes care of the hard part and compiles for all clients.</p>
-            </div>
-            <div class="card">
-                <p class="cardheaading">Custom CSS</p>
-                <p class="cardcontent">CSS built from the ground up to work with email "technology" like using tables for layout and structure.</p>
-            </div>
-            <div class="card">
-                <p class="cardheaading">Simple Syntax</p>
-                <p class="cardcontent">Use syntax just like regular Bootstrap classes and the compiler will process that into something the emails can render consistently.</p>
-            </div>
-            <div class="card">
-                <p class="cardheaading">Tested</p>
-                <p class="cardcontent">You should feel comfortable knowing if an email looks right in the browser, it will in your emails too.</p>
-            </div>
+        </ul>
+    </div>
+    <div class="right-container">
+        <img class="banner-logo" th:src="@{/images/bootstrap-email-support.png}" alt="mail">
+    </div>
+</div>
+
+<div class="feature-section">
+    <div class="feature-heading">Features</div>
+
+    <div class="card-row">
+        <div class="card">
+            <p class="card-heading">Highly Available</p>
+            <p class="card-content">Always there when you need it</p>
+        </div>
+        <div class="card">
+            <p class="card-heading">Highly Scalable</p>
+            <p class="card-content">Designed keeping future scalability of infrastructure in mind</p>
+        </div>
+        <div class="card">
+            <p class="card-heading">Easy to use</p>
+            <p class="card-content">Simple, Intuitive User interfaces for productivity</p>
+        </div>
+        <div class="card">
+            <p class="card-heading">Cloud Native</p>
+            <p class="card-content">No vendor lock-in, optimized for cloud first</p>
         </div>
 
     </div>
 
-=======
-  <title>Test</title>
-  <div th:replace="fragments/bootstrap :: bootstrap"></div>
-</head>
+    <div class="d-flex justify-content-center">
 
-<body>
-  <div th:replace="fragments/navbar :: navbar"></div>
->>>>>>> da52375f359d4a325d4f5861b52b5304ad2b2847
+            <div class="card-2">
+                <a th:href="@{/oauth2/authorization/auth0}">
+                <div class="d-flex justify-content-center">
+                    <p class="card-heading">Get Started !</p>
+                </div>
+                </a>
+            </div>
+
+    </div>
+
+</div>
+
+
 </body>
 
 </html>
