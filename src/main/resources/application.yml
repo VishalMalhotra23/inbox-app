@@ -1,0 +1,41 @@
+spring:
+
+  config:
+    import: optional:secrets.properties
+
+  application:
+    name: cloud-inbox-app
+
+  data:
+    cassandra:
+      connection:
+        connect-timeout: 10s
+        init-query-timeout: 10s
+      contact-points: ${cassandra.host}
+      keyspace-name: main
+      local-datacenter: datacenter1
+      username: ${cassandra.user}
+      password: ${cassandra.password}
+      request:
+        timeout: 10s
+      schema-action: RECREATE
+      #schema-action: CREATE_IF_NOT_EXISTS
+
+  security:
+    oauth2:
+      client:
+        registration:
+          auth0:
+            redirectUri: ${oauth.redirectUri}
+            client-id: ${oauth.client-id}
+            client-secret: ${oauth.client-secret}
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          auth0:
+            issuer-uri: ${oauth.issuer-uri}
+
+custom:
+    logout-url: ${custom.logout}

@@ -21,7 +21,7 @@ import java.io.IOException;
 @Controller
 public class LogoutHandler extends SecurityContextLogoutHandler {
 
-    @Value("${custom.config.logout-url}")
+    @Value("${custom.logout-url}")
     private String my_logout_url;
 
     private final ClientRegistrationRepository clientRegistrationRepository;

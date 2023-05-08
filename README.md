@@ -9,11 +9,10 @@
 - Paste the following content
 
 ```yml
-custom:
-  config:
-    logout-url: http://localhost:8080
-
 spring:
+
+  config:
+    import: optional:secrets.properties
 
   application:
     name: cloud-inbox-app
@@ -23,32 +22,47 @@ spring:
       connection:
         connect-timeout: 10s
         init-query-timeout: 10s
-      contact-points: localhost
+      contact-points: ${cassandra.host}
       keyspace-name: main
       local-datacenter: datacenter1
-      password: cassandra
+      username: ${cassandra.user}
+      password: ${cassandra.password}
       request:
         timeout: 10s
       #schema-action: RECREATE
       schema-action: CREATE_IF_NOT_EXISTS
-      username: cassandra
 
   security:
     oauth2:
       client:
         registration:
           auth0:
-            redirectUri: http://[redirect-ui]
-            client-id: client-id
-            client-secret: client-secret
+            redirectUri: ${oauth.redirectUri}
+            client-id: ${oauth.client-id}
+            client-secret: ${oauth.client-secret}
             scope:
               - openid
               - profile
               - email
         provider:
           auth0:
-            issuer-uri: https://[domain]/
+            issuer-uri: ${oauth.issuer-uri}
 
+custom:
+  logout-url: ${custom.logout}
+```
+
+- cmd : `touch /src/main/resources/secrets.properties`
+
+```properties
+cassandra.host:localhost
+cassandra.user:cassandra
+cassandra.password:
+oauth.redirectUri:http://localhost:8080/login/oauth2/code/auth0
+oauth.clientid:
+oauth.client-secret:
+oauth.issuer-uri:https://yadav117uday.eu.auth0.com/
+custom.logout:http://localhost:8080
 ```
 
 - **Register application on [auth](https://auth0.com/)**
@@ -136,11 +150,10 @@ CREATE KEYSPACE main WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', '
 - touch `src/main/resources/application.yml`
 
 ```bash
-custom:
-  config:
-    logout-url: https://chat.udayyadav.one/
-
 spring:
+
+  config:
+    import: optional:secrets.properties
 
   application:
     name: cloud-inbox-app
@@ -150,32 +163,47 @@ spring:
       connection:
         connect-timeout: 10s
         init-query-timeout: 10s
-      contact-points: localhost
+      contact-points: ${cassandra.host}
       keyspace-name: main
       local-datacenter: datacenter1
-      password: cassandra
+      username: ${cassandra.user}
+      password: ${cassandra.password}
       request:
         timeout: 10s
-      schema-action: RECREATE
-      #schema-action: CREATE_IF_NOT_EXISTS
-      username: cassandra
+      #schema-action: RECREATE
+      schema-action: CREATE_IF_NOT_EXISTS
 
   security:
     oauth2:
       client:
         registration:
           auth0:
-            redirectUri: http://[domain]/login/oauth2/code/auth0
-            client-id: [client-id]
-            client-secret: [client-secret]
+            redirectUri: ${oauth.redirectUri}
+            client-id: ${oauth.client-id}
+            client-secret: ${oauth.client-secret}
             scope:
               - openid
               - profile
               - email
         provider:
           auth0:
-            issuer-uri: https://yadav117uday.eu.auth0.com/
+            issuer-uri: ${oauth.issuer-uri}
 
+custom:
+    logout-url: ${custom.logout}
+```
+
+- cmd : `touch /src/main/resources/secrets.properties`
+
+```properties
+cassandra.host:localhost
+cassandra.user:cassandra
+cassandra.password:
+oauth.redirectUri:http://localhost:8080/login/oauth2/code/auth0
+oauth.clientid:
+oauth.client-secret:
+oauth.issuer-uri:https://yadav117uday.eu.auth0.com/
+custom.logout:http://localhost:8080
 ```
 
 ```bash
