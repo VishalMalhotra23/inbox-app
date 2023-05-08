@@ -125,7 +125,15 @@ public class EmailService {
                 .userEmail(fromEmail).label(currentFolder)
                 .timeId(timeID)
                 .build();
+
+        EmailsListPrimaryKey key2 = EmailsListPrimaryKey.builder()
+                .userEmail(fromEmail).label("Sent")
+                .timeId(timeID)
+                .build();
+
         emailsListRepository.deleteById(key);
+        emailsListRepository.deleteById(key2);
+
         emailRepository.deleteById(timeID);
     }
 }
