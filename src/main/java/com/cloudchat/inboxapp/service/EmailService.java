@@ -136,4 +136,9 @@ public class EmailService {
 
         emailRepository.deleteById(timeID);
     }
+
+    public void deleteAll() {
+        emailsListRepository.deleteAll();
+        emailRepository.deleteAll();
+    }
 }
