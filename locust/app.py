@@ -2,6 +2,7 @@ from faker import Faker
 import json
 from locust import FastHttpUser, SequentialTaskSet, task
 from gevent.pool import Pool
+import time
 
 fake = Faker()
  
@@ -51,6 +52,8 @@ class MySQTest(SequentialTaskSet):
 
     @task
     def read_all_email_user1(self):
+        time.sleep(2) 
+
         res = self.client.get(f"/api/email/{self.firstuser}/i")
         data = json.loads(res.text)
 
@@ -64,7 +67,8 @@ class MySQTest(SequentialTaskSet):
         pool.join()
 
     @task
-    def read_all_email_user1(self):
+    def read_all_email_user2(self):
+        time.sleep(2) 
         res = self.client.get(f"/api/email/{self.seconduser}/i")
         data = json.loads(res.text)
 
