@@ -12,7 +12,7 @@ class MySQTest(SequentialTaskSet):
     seconduser = fake.email()
 
     @task
-    def send_email_user1(self):
+    def send_email_user(self):
 
         def concurrent_request():
             message = json.dumps({
@@ -23,18 +23,7 @@ class MySQTest(SequentialTaskSet):
             })
 
             self.client.post("/api/compose", data=str(message), headers = {'Content-Type': 'application/json'})
-        
-        pool = Pool()
-        for i in range(5):
-            pool.spawn(concurrent_request)
-        pool.join()
-
-
-
-    @task
-    def send_email_user2(self):
-
-        def concurrent_request():
+            
             message = json.dumps({
                 "from": self.seconduser,
                 "to": self.firstuser,
@@ -48,11 +37,31 @@ class MySQTest(SequentialTaskSet):
         for i in range(5):
             pool.spawn(concurrent_request)
         pool.join()
+
+
+
+    # @task
+    # def send_email_user2(self):
+
+    #     def concurrent_request():
+    #         message = json.dumps({
+    #             "from": self.seconduser,
+    #             "to": self.firstuser,
+    #             "body": fake.sentence(),
+    #             "subject": fake.sentence()
+    #         })
+
+    #         self.client.post("/api/compose", data=str(message), headers = {'Content-Type': 'application/json'})
+        
+    #     pool = Pool()
+    #     for i in range(5):
+    #         pool.spawn(concurrent_request)
+    #     pool.join()
         
 
     @task
     def read_all_email_user1(self):
-        time.sleep(2) 
+        time.sleep(1) 
 
         res = self.client.get(f"/api/email/{self.firstuser}/i")
         data = json.loads(res.text)
@@ -68,7 +77,7 @@ class MySQTest(SequentialTaskSet):
 
     @task
     def read_all_email_user2(self):
-        time.sleep(2) 
+        time.sleep(1) 
         res = self.client.get(f"/api/email/{self.seconduser}/i")
         data = json.loads(res.text)
 
