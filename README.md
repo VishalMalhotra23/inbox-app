@@ -52,17 +52,22 @@ custom:
   logout-url: ${custom.logout}
 ```
 
-- cmd : `touch /src/main/resources/secrets.properties`
+- create secret properties file
+```bash
+touch src/main/resources/secrets.properties
+```
+
+- Content
 
 ```properties
 cassandra.host:localhost
 cassandra.user:cassandra
 cassandra.password:
-oauth.redirectUri:http://localhost:8080/login/oauth2/code/auth0
+oauth.redirectUri:[Domain]/login/oauth2/code/auth0
 oauth.clientid:
 oauth.client-secret:
-oauth.issuer-uri:https://yadav117uday.eu.auth0.com/
-custom.logout:http://localhost:8080
+oauth.issuer-uri:[Domain]
+custom.logout:[Domain]
 ```
 
 - **Register application on [auth](https://auth0.com/)**
@@ -104,10 +109,10 @@ CREATE KEYSPACE main WITH REPLICATION
 sudo apt-get update -y && sudo apt install git default-jdk maven wget lsof htop -y 
 
 # Get Repo
-echo "deb http://www.apache.org/dist/cassandra/debian 40x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
+echo "deb https://debian.cassandra.apache.org 41x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
 
 # Get Keys
-wget -q -O - https://www.apache.org/dist/cassandra/KEYS | sudo tee /etc/apt/trusted.gpg.d/cassandra.asc
+curl https://downloads.apache.org/cassandra/KEYS | sudo apt-key add -
 
 # Install Cassandra
 sudo apt update -y && sudo apt install cassandra -y && sudo systemctl enable cassandra && sudo systemctl start cassandra 
@@ -120,19 +125,19 @@ sudo nano /etc/cassandra/cassandra.yaml
 
 node1
 node2
-ndoe3
+node3
 
 #node-1
-sudo sed -i 's/seeds: "127.0.0.1:7000"/seeds: "node2,ndoe3"/g' /etc/cassandra/cassandra.yaml
+sudo sed -i 's/seeds: "127.0.0.1:7000"/seeds: "node2,node3"/g' /etc/cassandra/cassandra.yaml
 sudo sed -i 's/listen_address: localhost/listen_address: node1/g' /etc/cassandra/cassandra.yaml
 
 #node-2
-sudo sed -i 's/seeds: "127.0.0.1:7000"/seeds: "node1,ndoe3"/g' /etc/cassandra/cassandra.yaml
+sudo sed -i 's/seeds: "127.0.0.1:7000"/seeds: "node1,node3"/g' /etc/cassandra/cassandra.yaml
 sudo sed -i 's/listen_address: localhost/listen_address: node2/g' /etc/cassandra/cassandra.yaml
 
 #node-3
 sudo sed -i 's/seeds: "127.0.0.1:7000"/seeds: "node2,node1"/g' /etc/cassandra/cassandra.yaml
-sudo sed -i 's/listen_address: localhost/listen_address: ndoe3/g' /etc/cassandra/cassandra.yaml
+sudo sed -i 's/listen_address: localhost/listen_address: node3/g' /etc/cassandra/cassandra.yaml
 
 # restart cassandra
 sudo systemctl restart cassandra 
@@ -145,69 +150,10 @@ CREATE KEYSPACE main WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', '
 
 ```
 
-### Spring Boot setup
-
-- touch `src/main/resources/application.yml`
+## Setup Compute
 
 ```bash
-spring:
-
-  config:
-    import: optional:secrets.properties
-
-  application:
-    name: cloud-inbox-app
-
-  data:
-    cassandra:
-      connection:
-        connect-timeout: 10s
-        init-query-timeout: 10s
-      contact-points: ${cassandra.host}
-      keyspace-name: main
-      local-datacenter: datacenter1
-      username: ${cassandra.user}
-      password: ${cassandra.password}
-      request:
-        timeout: 10s
-      #schema-action: RECREATE
-      schema-action: CREATE_IF_NOT_EXISTS
-
-  security:
-    oauth2:
-      client:
-        registration:
-          auth0:
-            redirectUri: ${oauth.redirectUri}
-            client-id: ${oauth.client-id}
-            client-secret: ${oauth.client-secret}
-            scope:
-              - openid
-              - profile
-              - email
-        provider:
-          auth0:
-            issuer-uri: ${oauth.issuer-uri}
-
-custom:
-    logout-url: ${custom.logout}
-```
-
-- cmd : `touch /src/main/resources/secrets.properties`
-
-```properties
-cassandra.host:localhost
-cassandra.user:cassandra
-cassandra.password:
-oauth.redirectUri:http://localhost:8080/login/oauth2/code/auth0
-oauth.clientid:
-oauth.client-secret:
-oauth.issuer-uri:https://yadav117uday.eu.auth0.com/
-custom.logout:http://localhost:8080
-```
-
-```bash
-git clone https://github.com/dev117uday/inbox-app.git && cd inbox
+git clone https://github.com/dev117uday/inbox-app.git && cd inbox-app
 
 sed -i 's/17/11/g' pom.xml 
 mvn clean install package
@@ -238,15 +184,23 @@ http {
 events { }
 ```
 
-- restart nginx : `sudo systemctl restart nginx`
+- restart nginx : 
+```bash
+sudo systemctl restart nginx
+```
 
 ## Nginx conf for Load balancer
 
+```bash
+sudo apt-get update -y
 sudo apt-get install nginx snapd -y
 sudo snap install core; sudo snap refresh core
 sudo snap install --classic certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
 sudo certbot --nginx
+
+sudo rm /etc/nginx/nginx.conf && sudo nano /etc/nginx/nginx.conf
+```
 
 ```conf
 http {
@@ -258,8 +212,8 @@ http {
 }    
     server {
         listen 443 ssl;
-        ssl_certificate /etc/letsencrypt/live/chat.udayyadav.one/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/chat.udayyadav.one/privkey.pem;
+        ssl_certificate /etc/letsencrypt/live/chat.solvepao.com/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/chat.solvepao.com/privkey.pem;
         ssl_protocols TLSv1.3;
         location / {
             proxy_pass http://backend;         
@@ -269,7 +223,11 @@ http {
 events { }
 ```
 
-- restart nginx : `sudo systemctl restart nginx`
+- restart nginx : 
+
+```bash
+sudo systemctl restart nginx
+```
 
 - **Register application on [auth](https://auth0.com/)**
 
