@@ -1,4 +1,8 @@
 
+## Locust Setup
+
 ```bash
-locust -f app.py
+ulimit -S -n 10000
+
+locust -f app.py --only-summary --skip-log-setup  
 ```

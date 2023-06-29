@@ -143,7 +143,7 @@ sudo sed -i 's/listen_address: localhost/listen_address: node3/g' /etc/cassandra
 sudo systemctl restart cassandra 
 
 # login to cassandra
-cqlsh -u cassandra
+cqlsh -u cassandra -p cassandra
 
 # create keyspace
 CREATE KEYSPACE main WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', 'replication_factor' : 2 };
@@ -206,10 +206,16 @@ sudo rm /etc/nginx/nginx.conf && sudo nano /etc/nginx/nginx.conf
 http {
     upstream backend {
         ip_hash;
-        server node1 max_fails=1 fail_timeout=5s;
-        server node2 max_fails=1 fail_timeout=5s;
-        server node3 max_fails=1 fail_timeout=5s;
-}    
+        server node1 max_fails=1 fail_timeout=1s;
+        server node2 max_fails=1 fail_timeout=1s;
+        server node3 max_fails=1 fail_timeout=1s;
+    }  
+    upstream backend2 {
+        server node1 max_fails=1 fail_timeout=1s;
+        server node2 max_fails=1 fail_timeout=1s;
+        server node3 max_fails=1 fail_timeout=1s;
+    }    
+
     server {
         listen 443 ssl;
         ssl_certificate /etc/letsencrypt/live/chat.solvepao.com/fullchain.pem;
@@ -219,8 +225,17 @@ http {
             proxy_pass http://backend;         
         }
     }
+
+    server {
+        listen 80;
+        location / {
+          proxy_pass http://backend2;
+        }
+    }
 }
+
 events { }
+
 ```
 
 - restart nginx : 
